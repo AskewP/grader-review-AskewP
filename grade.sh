@@ -29,11 +29,18 @@ else
     echo "Program compiled successfully!"
 fi
 
-java -cp "$CPATH" org.junit.runner.JUnitCore TestListExamples
+java -cp "$CPATH" org.junit.runner.JUnitCore TestListExamples > results.txt
 
-if [ $? -ne 0 ]; then
-    echo "Your Tests Failed"
+ret=$?
+
+
+
+if [ $ret -ne 0 ]; then
+    echo "Your Tests Failed with exit code" $ret
     exit 1
+else 
+    echo "All Tests Passed!"
+    exit 0
 fi
 
 # Draw a picture/take notes on the directory structure that's set up after
