@@ -8,6 +8,33 @@ mkdir grading-area
 git clone $1 student-submission
 echo 'Finished cloning'
 
+if [ -f "student-submission/ListExamples.java" ]; then
+    echo "File found"
+else
+    echo "file ListExamples.java" not found
+    exit 1
+fi
+
+cp student-submission/ListExamples.java grading-area/
+cp TestListExamples.java grading-area/
+cp -r lib grading-area
+
+cd grading-area
+javac -cp "$CPATH" *.java
+
+if [ $? -ne 0 ]; then
+    echo "Compliation Error"
+    exit 1
+else
+    echo "Program compiled successfully!"
+fi
+
+java -cp "$CPATH" org.junit.runner.JUnitCore TestListExamples
+
+if [ $? -ne 0 ]; then
+    echo "Your Tests Failed"
+    exit 1
+fi
 
 # Draw a picture/take notes on the directory structure that's set up after
 # getting to this point
